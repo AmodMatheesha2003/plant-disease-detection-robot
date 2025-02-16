@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriBot System | Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+<body>
+    <div class="body">
+        <header>
+            <h1><i class="uil uil-robot header-bot"></i> AgriBot System</h1>
+            <div id="status"><span id="statuscircle" class="idle"></span> Robot Idle</div>
+        </header>
+        <div class="container">
+            <div class="bentobox1">
+                <section id="stations">
+                    <div class="station" id="main-station"><i class="uil uil-estate icons"></i><br>Main Station</div>
+                    <div class="path"></div>
+
+                    <div class="station" id="station-1">
+                        <i class="uil uil-pagelines icons"></i><br>
+                        Station 1 
+                        <i class="uil uil-info-circle info-icon" id="station1-info"></i>
+                        
+                        <!-- Popup Box -->
+                        <div class="popup-box">
+                            <div class="info-status">
+                                <h3>Station 01</h3>
+                                <p class="healthy">Healthy</p>
+                            </div>
+                            <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
+                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                        </div>
+                    </div>
+
+                    <div class="station" id="station-2">
+                        <i class="uil uil-pagelines icons"></i><br>
+                        Station 2 
+                        <i class="uil uil-info-circle info-icon" id="station2-info"></i>
+                        
+                        <!-- Popup Box -->
+                        <div class="popup-box">
+                            <div class="info-status">
+                                <h3>Station 01</h3>
+                                <p class="warning">Warning</p>
+                            </div>
+                            <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
+                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                        </div>
+                    </div>  
+                                     
+                </section>
+                
+                <section id="controls">
+                    <button class="normal-btn" onclick="handleNormalCheck()">Start Normal Check</button>
+                    <button onclick="handleStationCheck(1)">Check Station 1</button>
+                    <button onclick="handleStationCheck(2)">Check Station 2</button>
+                </div>
+            </section>
+            
+            <section id="info">
+                <div class="info-boxes">
+                    <div class="station-box1">
+                        <div class="info-status">
+                            <h3>Station 01</h3>
+                            <p class="healthy">Healthy</p>
+                        </div>
+                        <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
+                        <p><i class="uil uil-analysis infobox-icons"></i> Temperature: <span id="temp1">0</span>°C</p>
+                        <p><i class="uil uil-tear infobox-icons"></i> Humidity: <span id="humi1">0</span>°C</p>
+                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                    </div>
+                    <div class="station-box2">
+                        <div class="info-status">
+                            <h3>Station 01</h3>
+                            <p class="warning">Warning</p>
+                        </div>
+                        <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
+                        <p><i class="uil uil-analysis infobox-icons"></i> Temperature: <span id="temp1">0</span>°C</p>
+                        <p><i class="uil uil-tear infobox-icons"></i> Humidity: <span id="humi1">0</span>°C</p>
+                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <script src="js/admin.js"></script>
+</body>
+</html>
