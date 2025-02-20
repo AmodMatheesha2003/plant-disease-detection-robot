@@ -88,3 +88,17 @@ infoIcon.addEventListener("mouseenter", () => {
 infoIcon.addEventListener("mouseleave", () => {
     popup.style.display = "none";
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".info-status p").forEach((element) => {
+        let statusText = element.textContent.trim().toLowerCase();
+
+        if (statusText === "healthy") {
+            element.classList.add("healthy");
+        } else if (statusText === "warning") {
+            element.classList.add("warning");
+        }
+    });
+});

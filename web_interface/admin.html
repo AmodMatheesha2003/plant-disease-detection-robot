@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriBot System | Dashboard</title>
+    <title>LeafGuard System | Dashboard</title>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 </head>
 <body>
     <div class="body">
         <header>
-            <h1><i class="uil uil-robot header-bot"></i> AgriBot System</h1>
+            <h1><i class="uil uil-robot header-bot"></i> LeafGuard System</h1>
             <div id="status"><span id="statuscircle" class="idle"></span> Robot Idle</div>
         </header>
+
         <div class="container">
             <div class="bentobox1">
                 <section id="stations">
@@ -24,14 +25,13 @@
                         Station 1 
                         <i class="uil uil-info-circle info-icon" id="station1-info"></i>
                         
-                        <!-- Popup Box -->
                         <div class="popup-box">
                             <div class="info-status">
                                 <h3>Station 01</h3>
-                                <p class="healthy">Healthy</p>
+                                <p id="plant1_status_alert_hide" class="">Loading...</p>
                             </div>
-                            <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
-                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                            <p><i class="uil uil-tag-alt infobox-icons"></i> Plant: <b id="plant1_name_hide">Loading...</b> </p>
+                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: <b id="plant1_last_check_hide">Loading...</b></p>
                         </div>
                     </div>
 
@@ -40,14 +40,13 @@
                         Station 2 
                         <i class="uil uil-info-circle info-icon" id="station2-info"></i>
                         
-                        <!-- Popup Box -->
                         <div class="popup-box">
                             <div class="info-status">
                                 <h3>Station 01</h3>
-                                <p class="warning">Warning</p>
+                                <p id="plant2_status_alert_hide" class="">Loading...</p>
                             </div>
-                            <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
-                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                            <p><i class="uil uil-tag-alt infobox-icons"></i> Plant: <b id="plant2_name_hide">Loading...</b> </p>
+                            <p><i class="uil uil-clock infobox-icons"></i> Last Check: <b id="plant2_last_check_hide">Loading...</b> </p>
                         </div>
                     </div>  
                                      
@@ -59,34 +58,70 @@
                     <button onclick="handleStationCheck(2)">Check Station 2</button>
                 </div>
             </section>
+
+            <section id="temp-hum">
+                <div class="temp-hum-box">
+                    <h2>Temperature and Humidity 🌡💧</h2>
+                    <div class="temp-hum">
+                        <div class="temp temp-hum-con">
+                            <h3>Temperature</h3>
+                            <p><b><span id="temperature">Loading...</span>°C</b></p>
+                        </div>
+                        <div class="hum temp-hum-con">
+                            <h3>Humidity</h3>
+                            <p><b><span id="humidity">Loading...</span>% RH</b></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="cam">
+                <div class="cam-boxes">
+                    <div class="cam-all live-cam">
+                        <h2>Live Cam</h2>
+                        <div class="image-container">
+                            <img src="loading.jpg" alt="Live Camera Feed" class="cam-image">
+                        </div>
+                        <button class="live-cam-capture">Capture Image</button>
+                    </div>
+                    
+                    <div class="cam-all image-pros">
+                        <h2>Leaf Status Classifier</h2>
+                        <div class="image-container">
+                            <img src="loading.jpg" alt="Leaf Classifier" class="cam-image">
+                        </div>
+                        <button class="live-cam-capture">Classify</button>
+                    </div>
+                </div>
+            </section>
             
             <section id="info">
                 <div class="info-boxes">
                     <div class="station-box1">
                         <div class="info-status">
                             <h3>Station 01</h3>
-                            <p class="healthy">Healthy</p>
+                            <p id="plant1_status_alert" class="">Loading...</p>
                         </div>
-                        <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
-                        <p><i class="uil uil-analysis infobox-icons"></i> Temperature: <span id="temp1">0</span>°C</p>
-                        <p><i class="uil uil-tear infobox-icons"></i> Humidity: <span id="humi1">0</span>°C</p>
-                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                        <p><i class="uil uil-tag-alt infobox-icons"></i> Plant: <b id="plant1_name">Loading...</b></p>
+                        <p><i class="uil uil-chart-bar infobox-icons"></i> Status: <b id="plant1_status">Loading...</b></p>
+                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: <b id="plant1_last_check">Loading...</b></p>
                     </div>
                     <div class="station-box2">
                         <div class="info-status">
-                            <h3>Station 01</h3>
-                            <p class="warning">Warning</p>
+                            <h3>Station 02</h3>
+                            <p id="plant2_status_alert" class="">Loading...</p>
                         </div>
-                        <p><i class="uil uil-tag-alt infobox-icons"></i> Tomato</p>
-                        <p><i class="uil uil-analysis infobox-icons"></i> Temperature: <span id="temp1">0</span>°C</p>
-                        <p><i class="uil uil-tear infobox-icons"></i> Humidity: <span id="humi1">0</span>°C</p>
-                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: 2024-03-15 14:30</p>
+                        <p><i class="uil uil-tag-alt infobox-icons"></i> Plant: <b id="plant2_name">Loading...</b></p>
+                        <p><i class="uil uil-chart-bar infobox-icons"></i> Status: <b id="plant2_status">Loading...</b></p>
+                        <p><i class="uil uil-clock infobox-icons"></i> Last Check: <b id="plant2_last_check">Loading...</b></p>
                     </div>
                 </div>
             </section>
         </div>
     </div>
-    
+
+    <script type="module" src="js/firebase.js"></script>
     <script src="js/admin.js"></script>
+
 </body>
 </html>
