@@ -62,16 +62,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Listen for changes in plant1 status
     onValue(plant1status, (snapshot) => {
-        const status = snapshot.val(); // Get actual value
+        const status = snapshot.val();
         updatePlantStatus("plant1_status_alert", status);
         updatePlantStatus("plant1_status_alert_hide", status);
     });
 
-    // Listen for changes in plant2 status
     onValue(plant2status, (snapshot) => {
-        const status = snapshot.val(); // Get actual value
+        const status = snapshot.val(); 
         updatePlantStatus("plant2_status_alert", status);
         updatePlantStatus("plant2_status_alert_hide", status);
     });

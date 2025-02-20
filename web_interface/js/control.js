@@ -102,3 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function captureImage() {
+    const esp32IP = "192.168.157.138";
+    const captureURL = `http://${esp32IP}/capture`;
+    document.getElementById("captured").src = captureURL + "?t=" + new Date().getTime();
+}

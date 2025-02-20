@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeafGuard System | Dashboard</title>
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/Dashboard.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
 </head>
 <body>
@@ -80,15 +80,15 @@
                     <div class="cam-all live-cam">
                         <h2>Live Cam</h2>
                         <div class="image-container">
-                            <img src="loading.jpg" alt="Live Camera Feed" class="cam-image">
+                            <img src="http://192.168.157.138:81/stream" alt="Live Camera Feed" class="cam-image" onerror="this.src='loading.jpg';">
                         </div>
-                        <button class="live-cam-capture">Capture Image</button>
+                        <button class="live-cam-capture" onclick="captureImage()" >Capture Image</button>
                     </div>
                     
                     <div class="cam-all image-pros">
                         <h2>Leaf Status Classifier</h2>
                         <div class="image-container">
-                            <img src="loading.jpg" alt="Leaf Classifier" class="cam-image">
+                            <img id="captured" src="loading.jpg" alt="Leaf Classifier" class="cam-image" onerror="this.src='loading.jpg';">
                         </div>
                         <button class="live-cam-capture">Classify</button>
                     </div>
@@ -121,7 +121,7 @@
     </div>
 
     <script type="module" src="js/firebase.js"></script>
-    <script src="js/admin.js"></script>
+    <script src="js/control.js"></script>
 
 </body>
 </html>
