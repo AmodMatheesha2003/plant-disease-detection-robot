@@ -108,3 +108,42 @@ function captureImage() {
     const captureURL = `http://${esp32IP}/capture`;
     document.getElementById("captured").src = captureURL + "?t=" + new Date().getTime();
 }
+
+document.getElementById('classify-button').addEventListener('click', async function() {
+    const capturedImage = document.getElementById('captured').src;
+
+    if (capturedImage === 'loading.jpg') {
+        alert('Please capture an image first!');
+        return;
+    }
+
+    try {
+        // Create a FormData object
+        const formData = new FormData();
+        const response = await fetch(capturedImage, {
+            method: 'GET'
+        });
+
+        if (!response.ok) {
+            throw new Error('Error fetching the image');
+        }
+
+        const imageBlob = await response.blob();
+        formData.append('file', imageBlob, 'captured.jpg');
+
+        const apiResponse = await fetch('http://127.0.0.1:5000/predict', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await apiResponse.json();
+
+        if (apiResponse.ok) {
+            document.getElementById('classification').innerText = `Classification: ${data.classification} (Confidence: ${data.confidence})`;
+        } else {
+            document.getElementById('classification').innerText = 'Error: Unable to classify image';
+        }
+    } catch (error) {
+        document.getElementById('classification').innerText = 'Error: ' + error.message;
+    }
+});

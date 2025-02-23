@@ -41,7 +41,7 @@
                         <i class="uil uil-info-circle info-icon" id="station2-info"></i>
                         
                         <div class="popup-box">
-                            <div class="info-status">
+                            <div class="info-status">   
                                 <h3>Station 01</h3>
                                 <p id="plant2_status_alert_hide" class="">Loading...</p>
                             </div>
@@ -53,9 +53,9 @@
                 </section>
                 
                 <section id="controls">
-                    <button class="normal-btn" onclick="handleNormalCheck()">Start Normal Check</button>
-                    <button onclick="handleStationCheck(1)">Check Station 1</button>
-                    <button onclick="handleStationCheck(2)">Check Station 2</button>
+                    <button class="normal-btn" onclick="handleNormalCheck(1)">Check Station 1</button>
+                    <button onclick="handleStationCheck(2)">Check Station 2 </button>
+                    <button onclick="handleStationCheck()">Back to the Main Station</button>
                 </div>
             </section>
 
@@ -90,10 +90,14 @@
                         <div class="image-container">
                             <img id="captured" src="loading.jpg" alt="Leaf Classifier" class="cam-image" onerror="this.src='loading.jpg';">
                         </div>
-                        <button class="live-cam-capture">Classify</button>
+                        <h4 id="classification">Classification</h4>
+                        <button class="live-cam-capture" id="classify-button">Classify</button>
                     </div>
+                    
                 </div>
             </section>
+
+            
             
             <section id="info">
                 <div class="info-boxes">

@@ -1,4 +1,5 @@
 #include <Adafruit_Sensor.h>
+#include <Arduino.h>
 #include <DHT.h>
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
@@ -15,9 +16,19 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-#define DHTPIN 4      
+#define DHTPIN 4
+
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
+
+#define IN1 12
+#define IN2 13
+#define IN3 14
+#define IN4 27
+#define ENA 32
+#define ENB 33
+#define speed 70
+#define turnspeed 100
 
 unsigned long sendDataPrevMillis = 0;
 bool signupOK = false;
@@ -26,6 +37,7 @@ float humidity = 0;
 
 void setup() {
   Serial.begin(115200);
+
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED){
@@ -53,9 +65,66 @@ void setup() {
   Firebase.reconnectWiFi(true);
 
   dht.begin();
+  
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
 }
 
-void loop() {
+void moveForward() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
+  Serial.println("Moving Forward");
+}
+
+void moveBackward() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
+  Serial.println("Moving Backward");
+}
+
+void turnRight() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, turnspeed);
+  analogWrite(ENB, turnspeed);
+  Serial.println("Turning Left");
+}
+
+void turnLeft() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  analogWrite(ENA, turnspeed);
+  analogWrite(ENB, turnspeed);
+  Serial.println("Turning Right");
+}
+
+void stopMotors() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+  Serial.println("Motors Stopped");
+}
+
+void temperatureHumidity(){
   temperature = dht.readTemperature();
   humidity = dht.readHumidity();
 
@@ -87,5 +156,9 @@ void loop() {
       Serial.println("Error:"+fbdo.errorReason());
     }       
   }
+}
+
+void loop() {
+  temperatureHumidity();
   delay(2000); 
 }
