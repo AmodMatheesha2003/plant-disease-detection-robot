@@ -30,10 +30,18 @@ DHT dht(DHTPIN, DHTTYPE);
 #define speed 70
 #define turnspeed 100
 
+#define IR_LEFT 34
+#define IR_MIDDLE 35
+#define IR_RIGHT 39
+#define THRESHOLD 1000
+
 unsigned long sendDataPrevMillis = 0;
 bool signupOK = false;
 float temperature = 0;
 float humidity = 0;
+
+int user_selected_plant = 1;
+int currunt_position = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -158,7 +166,54 @@ void temperatureHumidity(){
   }
 }
 
+void navigation(){
+  int leftValue = analogRead(IR_LEFT);
+  int middleValue = analogRead(IR_MIDDLE);
+  int rightValue = analogRead(IR_RIGHT);
+
+  int leftir = (leftValue < THRESHOLD) ? 0 : 1;  // 1-black
+  int middleir = (middleValue < THRESHOLD) ? 0 : 1;
+  int rightir = (rightValue < THRESHOLD) ? 0 : 1;
+
+  if(currunt_position==0 && user_selected_plant==1){
+    if(middleir==1){
+      moveForward();
+      if(rightir==1){
+        currunt_position = 1;
+        Serial.print("Current Position: ");
+        Serial.println(currunt_position);
+        stopMotors();
+        delay(100);
+        turnRight();
+        delay(1000);
+        stopMotors();
+        Serial.println("Stoped at plant 1");
+      }
+    }
+  }else if((currunt_position==0 || currunt_position==1 ) && user_selected_plant==2){
+    if(middleir==1){
+      moveForward();
+      if(rightir==1){
+        currunt_position = currunt_position + 1;
+        Serial.print("Current Position: ");
+        Serial.println(currunt_position);
+        delay(500);
+        if(currunt_position == 2){
+          stopMotors();
+          delay(100);
+          turnRight();
+          delay(1000);
+          stopMotors();
+          Serial.println("Stoped at plant 2");
+        }
+      }
+    }
+  }
+}
+
+
 void loop() {
-  temperatureHumidity();
+  // temperaturenavigation();
+  navigation();
   delay(2000); 
 }
