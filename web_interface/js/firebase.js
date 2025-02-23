@@ -75,3 +75,72 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+let statusText = document.getElementById("status");
+let statuscircle = document.getElementById("statuscircle");
+
+window.updateSelectedPlant = function(value) {
+    set(ref(database, 'robotNavigation/user_selected_plant'), value)
+    .then(() => {
+        console.log("Updated user_selected_plant to:", value);
+
+        if (value === 1) {
+            stationOneCheck();
+        } else if (value === 2) {
+            stationTwoCheck();
+        } else if (value === 0) {
+            backMainStation();
+        }
+    })
+    .catch((error) => {
+        console.error("Error updating database:", error);
+    });
+};
+
+function resetStations() {
+    document.querySelectorAll(".station").forEach(station => station.classList.remove("active"));
+    statusText.innerText = "Robot Idle";
+    statuscircle.classList.remove("motion", "idle");
+    statuscircle.classList.add("idle");
+}
+
+function stationOneCheck() {
+    resetStations();
+    statusText.innerText = "Robot in Motion...";
+    statuscircle.classList.remove("idle");
+    statuscircle.classList.add("motion");
+
+    setTimeout(() => {
+        resetStations();
+        let station1 = document.getElementById("station-1");
+        station1.classList.add("active");
+        statusText.innerText = "IDLE : Station 01";
+    }, 5000); 
+}
+
+function stationTwoCheck() {
+    resetStations();
+    statusText.innerText = "Robot in Motion...";
+    statuscircle.classList.remove("idle");
+    statuscircle.classList.add("motion");
+
+    setTimeout(() => {
+        resetStations();
+        let station2 = document.getElementById("station-2");
+        station2.classList.add("active");
+        statusText.innerText = "IDLE : Station 02";
+    }, 5000); 
+}
+
+function backMainStation() {
+    statusText.innerText = "Robot in Motion...";
+    statuscircle.classList.remove("idle");
+    statuscircle.classList.add("motion");
+
+    setTimeout(() => {
+        resetStations();
+        document.getElementById("main-station").classList.add("active");
+        statusText.innerText = "Robot Idle";
+        statuscircle.classList.remove("motion");
+        statuscircle.classList.add("idle");
+    }, 5000); 
+}
