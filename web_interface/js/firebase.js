@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC8dKSLSurlgo0pXkqIcVVz1xcaz5x_CQM",
@@ -144,3 +144,29 @@ function backMainStation() {
         statuscircle.classList.add("idle");
     }, 5000); 
 }
+
+document.getElementById('saveData-button').addEventListener('click', async function() {
+    const u_select_plantRef = ref(database, 'robotNavigation/user_selected_plant');
+    try {
+        const snapshot = await get(u_select_plantRef);
+        if (snapshot.exists()) {
+            const uvalue = snapshot.val();
+            const classification = document.getElementById("classification").innerText;
+            const currentTime = new Date().toLocaleString();
+            
+            if (uvalue == 1) {
+                set(ref(database, 'Station/plant1/status'), classification);
+                set(ref(database, 'Station/plant1/lastcheck'), currentTime);
+            } else if (uvalue == 2) {
+                set(ref(database, 'Station/plant2/status'), classification);
+                set(ref(database, 'Station/plant2/lastcheck'), currentTime);
+            }
+        } else {
+            console.log("No data available");
+        }
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+});
+
+
