@@ -37,11 +37,13 @@ DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long sendDataPrevMillis = 0;
 bool signupOK = false;
+
 float temperature = 0;
 float humidity = 0;
 
-int user_selected_plant = 1;
+int user_selected_plant = 0;
 int currunt_position = 0;
+
 
 void setup() {
   Serial.begin(115200);
@@ -109,7 +111,7 @@ void turnRight() {
   digitalWrite(IN4, LOW);
   analogWrite(ENA, turnspeed);
   analogWrite(ENB, turnspeed);
-  Serial.println("Turning Left");
+  Serial.println("Turning Right");
 }
 
 void turnLeft() {
@@ -119,7 +121,7 @@ void turnLeft() {
   digitalWrite(IN4, HIGH);
   analogWrite(ENA, turnspeed);
   analogWrite(ENB, turnspeed);
-  Serial.println("Turning Right");
+  Serial.println("Turning Left");
 }
 
 void stopMotors() {
@@ -166,7 +168,19 @@ void temperatureHumidity(){
   }
 }
 
+void readUserSelectedPlant(){
+  if (Firebase.ready() && signupOK) {
+    if (Firebase.RTDB.getInt(&fbdo, "/robotNavigation/user_selected_plant")) {
+      user_selected_plant = fbdo.intData();
+      Serial.print("User selected plant: ");
+      Serial.println(user_selected_plant);
+    }
+  }
+}
+
 void navigation(){
+  readUserSelectedPlant();
+
   int leftValue = analogRead(IR_LEFT);
   int middleValue = analogRead(IR_MIDDLE);
   int rightValue = analogRead(IR_RIGHT);
@@ -175,7 +189,7 @@ void navigation(){
   int middleir = (middleValue < THRESHOLD) ? 0 : 1;
   int rightir = (rightValue < THRESHOLD) ? 0 : 1;
 
-  if(currunt_position==0 && user_selected_plant==1){
+  if(currunt_position == 0 && user_selected_plant == 1){
     if(middleir==1){
       moveForward();
       if(rightir==1){
@@ -183,24 +197,24 @@ void navigation(){
         Serial.print("Current Position: ");
         Serial.println(currunt_position);
         stopMotors();
-        delay(100);
+        delay(200);
         turnRight();
         delay(1000);
         stopMotors();
         Serial.println("Stoped at plant 1");
       }
     }
-  }else if((currunt_position==0 || currunt_position==1 ) && user_selected_plant==2){
+  }else if((currunt_position ==0 || currunt_position ==1 ) && user_selected_plant ==2){ //if currunt 1
     if(middleir==1){
       moveForward();
       if(rightir==1){
-        currunt_position = currunt_position + 1;
+        currunt_position++;
         Serial.print("Current Position: ");
         Serial.println(currunt_position);
         delay(500);
         if(currunt_position == 2){
           stopMotors();
-          delay(100);
+          delay(200);
           turnRight();
           delay(1000);
           stopMotors();
@@ -208,12 +222,59 @@ void navigation(){
         }
       }
     }
+  }else if(currunt_position == 2 && user_selected_plant == 0){
+    stopMotors();
+    delay(100);
+    turnLeft();
+    delay(1000);
+    stopMotors();
+    delay(10);
+    if(middleir==1){
+      moveBackward();
+      delay(500);
+      while (!(middleir == 1 && leftir == 1)) { 
+        moveBackward();
+        delay(500);
+        leftir = (analogRead(IR_LEFT) < THRESHOLD) ? 0 : 1;
+        middleir = (analogRead(IR_MIDDLE) < THRESHOLD) ? 0 : 1;
+      }
+      stopMotors();
+      delay(10);
+      currunt_position = 1;
+      moveBackward();
+      delay(500);
+      while (!(middleir == 1 && leftir == 1 && rightir == 1)) { 
+        moveBackward();
+        delay(500);
+        leftir = (analogRead(IR_LEFT) < THRESHOLD) ? 0 : 1;
+        middleir = (analogRead(IR_MIDDLE) < THRESHOLD) ? 0 : 1;
+        rightir = (analogRead(IR_RIGHT) < THRESHOLD) ? 0 : 1;
+      }
+      stopMotors();
+      currunt_position = 0;
+    }
+  }else if(currunt_position == 1 && user_selected_plant == 0){
+    stopMotors();
+    delay(100);
+    turnLeft();
+    delay(1000);
+    stopMotors();
+    delay(10);
+    moveBackward();
+    while (!(middleir == 1 && leftir == 1 && rightir == 1)) { 
+      moveBackward();
+      leftir = (analogRead(IR_LEFT) < THRESHOLD) ? 0 : 1;
+      middleir = (analogRead(IR_MIDDLE) < THRESHOLD) ? 0 : 1;
+      rightir = (analogRead(IR_RIGHT) < THRESHOLD) ? 0 : 1;
+    }
+    stopMotors();
+    currunt_position = 0;
   }
+
 }
 
-
 void loop() {
-  // temperaturenavigation();
+  temperatureHumidity();
   navigation();
-  delay(2000); 
+  delay(1000); 
 }
