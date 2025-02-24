@@ -54,9 +54,22 @@ document.addEventListener("DOMContentLoaded", function () {
         let element = document.getElementById(elementId);
 
         if (element) {
-            if (status === "Healthy") {
+            let displayText = "";
+            let statusType = status;
+
+            if (typeof status === "string") {
+                let match = status.match(/(Healthy|Rust|Powdery Mildew)\s*\(?(\d+(\.\d+)?)?\%?\)?/);
+                if (match) {
+                    statusType = match[1];
+                    displayText = match[2] ? `${statusType} (Confidence: ${match[2]}%)` : statusType;
+                } else {
+                    displayText = status; 
+                }
+            }
+
+            if (statusType === "Healthy") {
                 element.innerHTML = `<p class="healthy">Healthy</p>`;
-            } else if (status === "Rust" || status === "Powdery Mildew") {
+            } else if (statusType === "Rust" || statusType === "Powdery Mildew") {
                 element.innerHTML = `<p class="warning">Warning</p>`;
             }
         }
@@ -69,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     onValue(plant2status, (snapshot) => {
-        const status = snapshot.val(); 
+        const status = snapshot.val();
         updatePlantStatus("plant2_status_alert", status);
         updatePlantStatus("plant2_status_alert_hide", status);
     });

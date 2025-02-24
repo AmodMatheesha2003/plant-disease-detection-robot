@@ -58,7 +58,7 @@ document.getElementById('classify-button').addEventListener('click', async funct
         const data = await apiResponse.json();
 
         if (apiResponse.ok) {
-            document.getElementById('classification').innerText = `Classification: ${data.classification} (Confidence: ${data.confidence})`;
+            document.getElementById('classification').innerText = `${data.classification} (Confidence: ${data.confidence})`;
         } else {
             document.getElementById('classification').innerText = 'Error: Unable to classify image';
         }
