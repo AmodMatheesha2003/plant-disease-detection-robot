@@ -94,7 +94,7 @@ Follow these steps to install and set up the **Leaf Guard** system:
 ### 3. **Web Interface Setup**
 
 - Navigate to the **Web-Based Controller** directory.
-- Open the `index.html` file in your web browser or deploy the app to a server.
+- Open the `LeafGuard.html` file in your web browser or deploy the app to a server.
 - Control the robot and view real-time data from the dashboard.
 
 ## 🎬 Demonstration Video
