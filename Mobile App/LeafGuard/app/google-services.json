@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "628893507596",
+    "firebase_url": "https://leaf-guard-bce3b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "leaf-guard-bce3b",
+    "storage_bucket": "leaf-guard-bce3b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628893507596:android:50d0704cc867a857684e29",
+        "android_client_info": {
+          "package_name": "com.nibm.leafguard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgLntg6iytJNoL5h0g4tZJ4e_BTdGKnOc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
