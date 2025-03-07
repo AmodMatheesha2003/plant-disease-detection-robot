@@ -1,3 +1,6 @@
+let mainStation = document.getElementById("main-station");
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
@@ -52,6 +55,8 @@ onValue(plant2lastcheck, (snapshot) => updateElement("plant2_last_check_hide", s
 document.addEventListener("DOMContentLoaded", function () {
     function updatePlantStatus(elementId, status) {
         let element = document.getElementById(elementId);
+        
+        mainStation.classList.add("active");
 
         if (element) {
             let displayText = "";
